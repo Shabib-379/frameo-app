@@ -48,7 +48,7 @@ function setupSearch() {
 
 async function fetchMedia() {
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/media/all');
+      const response = await fetch(`http://127.0.0.1:5000/api/media/all`);
       const mediaList = await response.json();
       allMedia = mediaList;
       renderGallery(mediaList, currentPage);
@@ -153,6 +153,7 @@ async function fetchMedia() {
     caption.textContent = 'Caption: ' + media.caption;
     location.textContent = 'Location: ' + media.location;
     people.textContent = 'People: ' + media.people;
+
     likes.textContent = `Likes: ${media.likeCount || 0}`;
     views.textContent = `Views: ${media.viewCount || 0}`;
   
@@ -163,6 +164,7 @@ async function fetchMedia() {
       incrementLikeCount(media.id);
     };  
     
+    //Send request to increament view count
     fetch(`http://127.0.0.1:5000/api/media/${media.id}/view`, {
       method: 'POST'
       }).then(res => res.json()).then(data => {
@@ -180,5 +182,4 @@ async function fetchMedia() {
     currentPage++;
     renderGallery(allMedia, currentPage);
   });
-  
   
